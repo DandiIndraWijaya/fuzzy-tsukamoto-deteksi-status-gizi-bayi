@@ -16,9 +16,9 @@ class BayiForm(ModelForm):
         labels = {
             'nama_bayi': _('Nama Bayi'),
             'jenis_kelamin': _('Jenis Kelamin'),
-            'umur': _('Umur'),
-            'berat_badan': _('Berat Badan'),
-            'tinggi_badan': _('Tinggi Badan')
+            'umur': _('Umur (bulan)'),
+            'berat_badan': _('Berat Badan (kg)'),
+            'tinggi_badan': _('Tinggi Badan (cm)')
         }
         # mengatur teks pesan error untuk setiap validasi fieldnya
         error_messages = {

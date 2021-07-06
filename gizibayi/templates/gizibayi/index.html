@@ -19,7 +19,20 @@
   <body>
     <div class="container">
       <h1>Daftar Status Gizi Bayi</h1>
-
+      <div>
+        {% if messages %}
+        
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+                {{ message | safe }}
+            </div>
+            {% endfor %}
+        
+        {% endif %}
+        </div>
       <div>
         <a href="{% url 'gizibayi:create' %}" class="btn btn-success">Tambah Baru</a>
       </div>
@@ -57,9 +70,9 @@
                       Z-Score : {{ bayi.z_score }}
                     </td>
                     <td>
-                        <a href="#" class="btn btn-warning btn-sm text-white">detail</a>
+                        <!-- <a href="#" class="btn btn-warning btn-sm text-white">detail</a> -->
                         <a href="{% url 'gizibayi:update' bayi.id %}" class="btn btn-primary btn-sm">ubah</a>
-                        <a href="#" class="btn btn-danger btn-sm">hapus</a>
+                        <a href="{% url 'gizibayi:delete' bayi.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah yakin akan menghapus task ini?')">hapus</a>
                     </td>
                 </tr>
                 {% endfor %}

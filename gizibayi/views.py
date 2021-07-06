@@ -48,7 +48,7 @@ def create_view(request):
             # Simpan data ke dalam table tasks
             new_bayi.save()
             # mengeset pesan sukses dan redirect ke halaman daftar task
-            messages.success(request, 'Sukses Menambah Task baru.')
+            messages.success(request, 'Sukses Menambah Status Gizi Bayi Baru.')
             return redirect('gizibayi:home')
     # Jika method-nya bukan POST
     else:
@@ -82,3 +82,18 @@ def update_view(request, bayi_id):
         form = BayiForm(instance=task)
     # merender template form dengan memparsing data form
     return render(request, 'gizibayi/form.html', {'form': form})
+
+# Membuat View untuk menghapus data task
+def delete_view(request, bayi_id):
+    try:
+        # mengambil data task yang akan dihapus berdasarkan task id
+        task = Bayi.objects.get(pk=bayi_id)
+        # menghapus data dari table tasks
+        task.delete()
+        # mengeset pesan sukses dan redirect ke halaman daftar task
+        messages.success(request, 'Sukses Menghapus Status Gizi Bayi.')
+        return redirect('gizibayi:home')
+    except Bayi.DoesNotExist:
+        # Jika data task tidak ditemukan,
+        # maka akan di redirect ke halaman 404 (Page not found).
+        raise Http404("Task tidak ditemukan.")
