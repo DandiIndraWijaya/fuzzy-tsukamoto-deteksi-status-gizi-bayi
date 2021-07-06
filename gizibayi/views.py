@@ -4,7 +4,7 @@ from django.http import Http404
 from django.contrib import messages
 
 from .models import Bayi
-from .services import deteksi_gizi_bayi_laki
+from .services import deteksi_gizi_bayi_laki, deteksi_gizi_bayi_perempuan
 from .forms import BayiForm
 
 # Create your views here.
@@ -15,10 +15,17 @@ def index(request):
   gizi_bayi = dict()
   
   for bayi in bayis:
-    bayi.status = deteksi_gizi_bayi_laki(bayi.umur, bayi.berat_badan, bayi.tinggi_badan)
     if bayi.jenis_kelamin == 'x' or bayi.jenis_kelamin == 'laki-laki':
+      result = deteksi_gizi_bayi_laki(bayi.umur, bayi.berat_badan, bayi.tinggi_badan)
+      bayi.status = result[0]
+      bayi.z_score = result[1]
       bayi.gender = 'laki-laki'
-    
+    else:
+      result = deteksi_gizi_bayi_perempuan(bayi.umur, bayi.berat_badan, bayi.tinggi_badan)
+      bayi.status = result[0]
+      bayi.z_score = result[1]
+      bayi.gender = 'perempuan'
+      
   context = {
     'bayis': bayis
   }

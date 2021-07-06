@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Todo App</title>
+    <title>Deteksi Status Gizi Bayi</title>
 
     <style>
       body {
@@ -18,53 +18,60 @@
   </head>
   <body>
     <div class="container">
-      <h1>Daftar Task</h1>
+      <h1>Daftar Status Gizi Bayi</h1>
 
       <div>
         <a href="{% url 'gizibayi:create' %}" class="btn btn-success">Tambah Baru</a>
       </div>
 
       <br>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Umur (bulan)</th>
+                    <th>Berat Badan (kg)</th>
+                    <th>Tinggi Badan (cm)</th>
+                    <th>Status Gizi</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+              <!-- daftar task-->
+              {% if bayis %}
+                {% for bayi in bayis %}
+                <tr>
+                    <td>{{ bayi.id }}</td>
+                    <td>{{ bayi.nama_bayi }}</td>
+                    <td>{{ bayi.gender }}</td>
+                    <td>{{ bayi.umur }} bulan</td>
+                    <td>{{ bayi.berat_badan }} kg</td>
+                    <td>{{ bayi.tinggi_badan }} cm</td>
+                    <td>
+                      <b>{{ bayi.status }}</b>
+                      <br>
+                      <br>
+                      Z-Score : {{ bayi.z_score }}
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-warning btn-sm text-white">detail</a>
+                        <a href="{% url 'gizibayi:update' bayi.id %}" class="btn btn-primary btn-sm">ubah</a>
+                        <a href="#" class="btn btn-danger btn-sm">hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="7">Data tidak ditemukan.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+        </table>
+      </div>
 
-      <table class="table table-bordered table-striped">
-          <thead>
-              <tr>
-                  <th>ID</th>
-                  <th>Nama</th>
-                  <th>Jenis Kelamin</th>
-                  <th>Umur</th>
-                  <th>Berat Badan</th>
-                  <th>Tinggi Badan</th>
-                  <th>Status Gizi</th>
-                  <th>Aksi</th>
-              </tr>
-          </thead>
-          <tbody>
-            <!-- daftar task-->
-            {% if bayis %}
-              {% for bayi in bayis %}
-              <tr>
-                  <td>{{ bayi.id }}</td>
-                  <td>{{ bayi.nama_bayi }}</td>
-                  <td>{{ bayi.gender }}</td>
-                  <td>{{ bayi.umur }}</td>
-                  <td>{{ bayi.berat_badan }}</td>
-                  <td>{{ bayi.tinggi_badan }}</td>
-                  <td>{{ bayi.status }}</td>
-                  <td>
-                      <a href="#" class="btn btn-warning btn-sm text-white">detail</a>
-                      <a href="{% url 'gizibayi:update' bayi.id %}" class="btn btn-primary btn-sm">ubah</a>
-                      <a href="#" class="btn btn-danger btn-sm">hapus</a>
-                  </td>
-              </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td colspan="7">Data tidak ditemukan.</td>
-              </tr>
-            {% endif %}
-          </tbody>
-      </table>
   </div>
  
   </body>

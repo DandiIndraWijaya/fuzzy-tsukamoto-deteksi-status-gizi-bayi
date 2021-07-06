@@ -5,8 +5,10 @@
 # tinggi_badan = int(input('Tinggi badan (cm): '))
 
 def deteksi_gizi_bayi_laki(umur, berat_badan, tinggi_badan):
-  return deteksi(umur, berat_badan, tinggi_badan)
+  return deteksi(umur, berat_badan, tinggi_badan, gender="laki")
 
+def deteksi_gizi_bayi_perempuan(umur, berat_badan, tinggi_badan):
+  return deteksi(umur, berat_badan, tinggi_badan, gender="perempuan")
 
 def fase_1(b,a,x):
     if(x<=a):
@@ -117,7 +119,7 @@ def agregasi_obesitas(b,a,alfa):
     return nilai
 
 
-def deteksi(umur, berat_badan, tinggi_badan):
+def deteksi(umur, berat_badan, tinggi_badan, gender):
   soal = dict()
   
   soal = {
@@ -129,19 +131,37 @@ def deteksi(umur, berat_badan, tinggi_badan):
   }
   nama_var = ['umur', 'berat_badan', 'tinggi_badan', 'gizi']
   variabel = dict()
-  variabel = {
-    'fase_1': 6,
-    'fase_2': 12,
-    'fase_3': 24,
-    'fase_4': 36,
-    'fase_5': 46, 
-    'berat_badan_down': 7,
-    'berat_badan_sedang': 13,
-    'berat_badan_up': 19,
-    'tinggi_badan_down': 49,
-    'tinggi_badan_sedang': 75,
-    'tinggi_badan_up': 101
+  
+  if gender == 'laki':
+    variabel = {
+      'fase_1': 6,
+      'fase_2': 12,
+      'fase_3': 24,
+      'fase_4': 36,
+      'fase_5': 46, 
+      'berat_badan_down': 7,
+      'berat_badan_sedang': 13,
+      'berat_badan_up': 19,
+      'tinggi_badan_down': 49,
+      'tinggi_badan_sedang': 75,
+      'tinggi_badan_up': 101
+    }
+    
+  else:
+    variabel = {
+      'fase_1': 6,
+      'fase_2': 12,
+      'fase_3': 24,
+      'fase_4': 36,
+      'fase_5': 46, 
+      'berat_badan_down': 7,
+      'berat_badan_sedang': 12,
+      'berat_badan_up': 18,
+      'tinggi_badan_down': 48,
+      'tinggi_badan_sedang': 74,
+      'tinggi_badan_up': 100
   }
+    
   nk_1 = dict()
   nk = dict()
   nk_fase_1 = fase_1(variabel['fase_1'], variabel['fase_2'], soal['umur'])
@@ -473,10 +493,26 @@ def deteksi(umur, berat_badan, tinggi_badan):
   for i in range(len(alfa)):
       df += alfa[i]*z[i]
 
-  defuz = int(df/sum(alfa))
+  defuz = round(df/sum(alfa), 2)
   dit = 'Variabel yang ditanyakan : gizi'
+  
+  if defuz < 43:
+    status = 'Gizi Buruk'
+  
+  elif defuz > 43 and defuz < 48:
+    status = 'Gizi Kurang'
+  
+  elif defuz > 48 and defuz < 70:
+    status = 'Normal'
+  
+  elif defuz > 70 and defuz < 83:
+    status = 'Gizi Lebih'
+    
+  elif defuz > 83:
+    status = 'Obesitas'
+    
   # print("Jadi, nilai ",dit," adalah ",defuz)
-  return defuz
+  return [status, defuz]
 
 
 # deteksi_gizi_bayi_laki(15, 18, 25)
